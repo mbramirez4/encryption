@@ -37,24 +37,32 @@ public class SimpleLinkedList<T> {
         tail = node;
     }
 
+    /*
+    we have a -> b -> c -> d -> e ...
+    after the fist swap we want b -> a -> c -> d -> e ...
+    then we want b -> a -> d -> c -> e ...
+    then we want b -> a -> d -> c -> f -> e ...
+
+    In the minimum case
+    a -> b -> c -> d -> e
+    b = a.next
+    c = b.next
+
+    to get b -> a -> c
+    b.next = a
+    a.next = c
+
+    then from b -> a -> c -> d -> e ...
+    A = c
+    B = A.next (d)
+    C = B.next (e)
+
+    to get b -> a -> d -> c -> e ...
+    B.next = A (d -> c)
+    A.next = C (c -> e) b -> a -> c -> e (d is missing)
+    a.next = B (a -> d) b -> a -> d -> c -> e (Bring d back to the linked list)
+    */
     public void swapNodes(){
-        /*
-        we have a -> b -> c -> d -> e ...
-        after the fist swap we want b -> a -> c -> d -> e ...
-        then we want b -> a -> d -> c -> e ...
-        then we want b -> a -> d -> c -> f -> e ...
-
-        In the minimum case
-        a -> b -> c
-        b = a.next
-        c = b.next
-
-        to get b -> a -> c
-        b.next = a
-        a.next = c
-
-        */
-
         Node<T> a = head;
         // if the list is empty there is nothing to do
         if (a == null) return;
