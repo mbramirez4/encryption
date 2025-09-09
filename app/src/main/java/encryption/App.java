@@ -14,13 +14,14 @@ public class App {
         list.addLast("c");
         list.addLast("d");
         list.addLast("e");
-        // list.addLast("f");
+        list.addLast("f");
+        list.addLast("g");
         list.addFirst("a");
         System.out.println(list);
         
 
         // list.addFirst(Integer.valueOf(1));
-        // list.addFirst(Integer.valueOf(2));
+        // list.addFirst(Integer.valueOf(2))x;
         // list.addFirst(Integer.valueOf(3));
         // list.addLast(Integer.valueOf(0));
         // list.addLast(Integer.valueOf(-1));
