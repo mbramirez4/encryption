@@ -1,14 +1,18 @@
 package encryption.Util;
 
+import java.util.Iterator;
+
 import encryption.Interface.EncryptedContainer;
 
 public class SimpleLinkedList<T> implements EncryptedContainer<T> {
     private Node<T> head;
     private Node<T> tail;
+    private int size;
     
     public SimpleLinkedList() {
         head = null;
         tail = null;
+        size = 0;
     }
 
     @Override
@@ -23,6 +27,7 @@ public class SimpleLinkedList<T> implements EncryptedContainer<T> {
         }
 
         head = node;
+        size++;
     }
 
     @Override
@@ -34,11 +39,13 @@ public class SimpleLinkedList<T> implements EncryptedContainer<T> {
         if (head == null & tail == null) {
             head = node;
             tail = head;
+            size ++;
             return;
         }
 
         tail.next = node;
         tail = node;
+        size++;
     }
 
     /*
@@ -104,6 +111,11 @@ public class SimpleLinkedList<T> implements EncryptedContainer<T> {
     }
 
     @Override
+    public int size() {
+        return size;
+    }
+
+    @Override
     public String dataAsString() {
         String message = "";
         Node<T> node = head;
@@ -118,10 +130,15 @@ public class SimpleLinkedList<T> implements EncryptedContainer<T> {
 
         return message;
     }
+
+    @Override
+    public Iterator<T> iterator() {
+        return new SimpleLinkedListIterator();
+    }
     
     @Override
     public String toString(){
-        return "SimpleLinkedList{ " + dataAsString() + " }";
+        return "SimpleLinkedList{ " + dataAsString() + ", size=" + size + " }";
     }
 
     @Override
@@ -147,5 +164,21 @@ public class SimpleLinkedList<T> implements EncryptedContainer<T> {
         equals = thisNode == null && thatNode == null;
         
         return equals;
+    }
+
+    private class SimpleLinkedListIterator implements Iterator<T> {
+        private Node<T> current = head;
+
+        @Override
+        public boolean hasNext() {
+            return (current != null);
+        }
+
+        @Override
+        public T next() {
+            T data = current.getData();
+            current = current.next;
+            return data;
+        }
     }
 }
