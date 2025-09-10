@@ -45,4 +45,17 @@ public final class Message {
     public String toString() {
         return "Message{ encryptedMessage='" + encryptedMessage + "' }";
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Message message = (Message) o;
+        return (
+            encryptedMessage.equals(message.encryptedMessage)
+            && originalMessage.equals(message.originalMessage)
+        );
+    }
 }

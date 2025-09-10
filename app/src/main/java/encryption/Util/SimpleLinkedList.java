@@ -119,10 +119,33 @@ public class SimpleLinkedList<T> implements EncryptedContainer<T> {
         return message;
     }
     
-
     @Override
     public String toString(){
         return "SimpleLinkedList{ " + dataAsString() + " }";
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+
+        if (o == null || getClass() != o.getClass()) return false;
+
+        
+        SimpleLinkedList<?> that = (SimpleLinkedList<?>) o;
+        Node<T> thisNode = head;
+        Node<?> thatNode = that.head;
+        
+        boolean equals = thisNode.equals(thatNode);
+        while (equals && thisNode != null) {
+            thisNode = thisNode.next;
+            thatNode = thatNode.next;
+            equals = thisNode.equals(thatNode);
+        }
+
+        if (!equals) return false;
+
+        equals = thisNode == null && thatNode == null;
+        
+        return equals;
+    }
 }

@@ -17,4 +17,17 @@ public class Node<T> {
     public String toString(){
         return "Node{ data='" + data + "'}";
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Node<?> node = (Node<?>) o;
+        return (
+            this.data.equals(node.data)
+            && this.next == node.next // Check if the next reference is the same to avoid infinite loop
+            );
+    }
 }
