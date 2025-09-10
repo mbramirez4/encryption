@@ -1,6 +1,8 @@
 package encryption.Util;
 
-public class SimpleLinkedList<T> {
+import encryption.Interface.EncryptedContainer;
+
+public class SimpleLinkedList<T> implements EncryptedContainer<T> {
     private Node<T> head;
     private Node<T> tail;
     
@@ -9,6 +11,7 @@ public class SimpleLinkedList<T> {
         tail = null;
     }
 
+    @Override
     public void addFirst(T data) {
         Node<T> node = new Node<>(data);
         node.next = head;
@@ -22,6 +25,7 @@ public class SimpleLinkedList<T> {
         head = node;
     }
 
+    @Override
     public void addLast(T data) {
         Node<T> node = new Node<>(data);
 
@@ -62,7 +66,8 @@ public class SimpleLinkedList<T> {
     A.next = C (c -> e) b -> a -> c -> e (d is missing)
     a.next = B (a -> d) b -> a -> d -> c -> e (Bring d back to the linked list)
     */
-    public void swapNodes(){
+    @Override
+    public void swapAdjacentData(){
         Node<T> a = head;
         // if the list is empty there is nothing to do
         if (a == null) return;
@@ -99,16 +104,25 @@ public class SimpleLinkedList<T> {
     }
 
     @Override
-    public String toString(){
-        String message = "SimpleLinkedList{ ";
+    public String dataAsString() {
+        String message = "";
         Node<T> node = head;
+
         while (node != null){
-            message += node.toString() + "->" ;
+            message += node.getData() + "->";
             node = node.next;
         }
+        
         message += "null }";
+        message = message.replace("->null }", "");
 
         return message;
+    }
+    
+
+    @Override
+    public String toString(){
+        return "SimpleLinkedList{ " + dataAsString() + " }";
     }
 
 }

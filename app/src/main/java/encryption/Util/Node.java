@@ -9,6 +9,10 @@ public class Node<T> {
         this.next = null;
     }
 
+    public T getData() {
+        return data;
+    }
+
     @Override
     public String toString(){
         return "Node{ data='" + data + "'}";
