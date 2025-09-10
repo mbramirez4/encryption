@@ -41,6 +41,22 @@ public final class Message {
         encryptedMessage = encryptedMessage.trim();
     }
 
+    public String decryptMessage() {
+        String decryptedMessage = "";
+        EncryptedContainer<Integer> encryptedWord;
+
+        while (!encryptedWords.isEmpty()) {
+            encryptedWord = encryptedWords.poll();
+            decryptedMessage += Encryptor.decrypt(encryptedWord) + " ";
+        }
+
+        return decryptedMessage.trim();
+    }
+
+    public boolean checkDecryptedMessage(String message) {
+        return originalMessage.equals(message);
+    }
+
     @Override
     public String toString() {
         return "Message{ encryptedMessage='" + encryptedMessage + "' }";

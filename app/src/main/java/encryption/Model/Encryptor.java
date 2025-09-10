@@ -30,6 +30,28 @@ public final class Encryptor {
         encryptedWord.swapAdjacentData();
         logger.debug("Adjacent data swapped: \n" + encryptedWord);
 
+        logger.info("Encryption of word finished: \n" + encryptedWord);
+
         return encryptedWord;
+    }
+
+    public static String decrypt(EncryptedContainer<Integer> encryptedWord) {
+        logger.info("Decryption of word started");
+        logger.debug("Data to decrypt: \n" + encryptedWord);
+
+        encryptedWord.swapAdjacentData();
+        logger.debug("Adjacent data swapped: \n" + encryptedWord);
+
+        int i = 0;
+        char[] chars = new char[encryptedWord.size()];
+        for (Integer encryptedChar : encryptedWord) {
+            chars[i] = (char) (encryptedChar - (2 * i + 1));
+            i++;
+        }
+
+        String decryptedWord = new String(chars);
+        logger.info("Decryption of word finished: " + decryptedWord);
+
+        return decryptedWord;
     }
 }
