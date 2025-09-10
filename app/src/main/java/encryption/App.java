@@ -3,35 +3,32 @@
  */
 package encryption;
 
-import encryption.Util.SimpleLinkedList;
+import java.util.List;
+import java.util.ArrayList;
+
+import encryption.Model.Message;
+import encryption.Util.DataManager;
 
 public class App {
     public static void main(String[] args) {
-        SimpleLinkedList<String> list = new SimpleLinkedList<>();
-
-        System.out.println(list);
-        list.addFirst("b");
-        list.addLast("c");
-        list.addLast("d");
-        list.addLast("e");
-        list.addLast("f");
-        list.addLast("g");
-        list.addFirst("a");
-        System.out.println(list);
+        List<String> messages = new ArrayList<>();
+        try {
+            messages = DataManager.getDataFromApi(
+                "https://zenquotes.io/api/quotes", "q", String.class
+            );
+        } catch (Exception e) {
+            System.out.println(e.getMessage() + "\n");
+            return;
+        }
         
+        for (String message : messages) {
+            Message msg = new Message(message);
+            msg.encryptMessage();
+            System.out.println(msg);
 
-        // list.addFirst(Integer.valueOf(1));
-        // list.addFirst(Integer.valueOf(2))x;
-        // list.addFirst(Integer.valueOf(3));
-        // list.addLast(Integer.valueOf(0));
-        // list.addLast(Integer.valueOf(-1));
-
-        list.swapNodes();
-        System.out.println(list);
-
-        list.addFirst("inicio");
-        list.addLast("fin");
-        System.out.println(list);
-
+            String decryptMessage = msg.decryptMessage();
+            System.out.println(decryptMessage);
+            System.out.println("Are they equal? " + msg.checkDecryptedMessage(decryptMessage));    
+        }
     }
 }
