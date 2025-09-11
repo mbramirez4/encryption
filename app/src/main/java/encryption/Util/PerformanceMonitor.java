@@ -27,7 +27,7 @@ public final class PerformanceMonitor {
     private CentralProcessor processor;
     private GlobalMemory physicalMemory; // Información de la memoria física
     private OperatingSystem os; // Información del sistema operativo
-    private OSProcess initialProcess;
+    private OSProcess process;
 
     public PerformanceMonitor( String processName, String processDetails){
         this.processName = processName;
@@ -48,7 +48,8 @@ public final class PerformanceMonitor {
         long[] tmpTicks = processor.getSystemCpuLoadTicks();
         double initialCPUConsumption = processor.getSystemCpuLoadBetweenTicks(tmpTicks) * 100;
 
-        initialProcess = os.getProcess(os.getProcessId());
+        process = os.getProcess(os.getProcessId());
+        process.updateAttributes(); // Take the initial snapshot
 
         logMessage += "\n === PROCESS [ " + processName + " ] === ";
         logMessage += "\n Description : " + processDetails + "\n";
@@ -73,9 +74,8 @@ public final class PerformanceMonitor {
         long[] tmpTicks = processor.getSystemCpuLoadTicks();
         double finalCPUConsumption = processor.getSystemCpuLoadBetweenTicks(tmpTicks) * 100;
 
-        // David's Method:
-        OSProcess finalProcess = os.getProcess(os.getProcessId());
-        double deltaCPUConsumption = finalProcess.getProcessCpuLoadBetweenTicks(initialProcess) * 100;
+        process.updateAttributes(); // Take the final snapshot
+        double deltaCPUConsumption = process.getProcessCpuLoadBetweenTicks(process) * 100;
 
         // Calcular las diferencias entre las métricas iniciales y finales
         deltaTime = finalTime - initialTime;
