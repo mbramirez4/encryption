@@ -3,9 +3,15 @@ package encryption.Model;
 import java.util.ArrayDeque;
 import java.util.Queue;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import encryption.Interface.EncryptedContainer;
+import encryption.Util.PerformanceMonitor;
 
 public final class Message {
+    private static final Logger timesLogger = LogManager.getLogger("times");
+
     private String originalMessage;
     
     private String encryptedMessage;
@@ -16,9 +22,12 @@ public final class Message {
     }
 
     public Message(String message) {
-        this.originalMessage = message.trim();
-
+        setMessage(message);
         encryptedWords = new ArrayDeque<>();
+    }
+
+    public void setMessage(String message){
+        originalMessage = message.trim();
     }
 
     public String getEncryptedMessage() {
@@ -26,9 +35,18 @@ public final class Message {
     }
 
     public void encryptMessage() {
-        EncryptedContainer<Integer> encryptedWord;
+        // The original message is passed as the description for the
+        // process in order to identify if certain messages are more
+        // resource intensive than others.
+        PerformanceMonitor monitor = new PerformanceMonitor(
+            "Message encryption", originalMessage
+        );
+        monitor.init();
+
+        long initialTime = System.currentTimeMillis();
         
         encryptedMessage = "";
+        EncryptedContainer<Integer> encryptedWord;
 
         String[] words = originalMessage.split(" ");
         for (String word : words) {
@@ -39,6 +57,48 @@ public final class Message {
         }
 
         encryptedMessage = encryptedMessage.trim();
+
+        long finalTime = System.currentTimeMillis();
+        timesLogger.info(
+            "Encryption of a message with " + words.length + " words took "
+            + (finalTime - initialTime) + " ms"
+        );
+
+        monitor.end();
+    }
+
+    public String decryptMessage() {
+        PerformanceMonitor monitor = new PerformanceMonitor(
+            "Message decryption", encryptedMessage
+        );
+        monitor.init();
+        
+        long initialTime = System.currentTimeMillis();
+        
+        String decryptedMessage = "";
+        int numberWords = encryptedWords.size();
+        EncryptedContainer<Integer> encryptedWord;
+
+        while (!encryptedWords.isEmpty()) {
+            encryptedWord = encryptedWords.poll();
+            decryptedMessage += Encryptor.decrypt(encryptedWord) + " ";
+        }
+
+        decryptedMessage = decryptedMessage.trim();
+
+        long finalTime = System.currentTimeMillis();
+        timesLogger.info(
+            "Decryption of a message with " + numberWords
+            + " words took " + (finalTime - initialTime) + " ms"
+        );
+
+        monitor.end();
+
+        return decryptedMessage;
+    }
+
+    public boolean checkDecryptedMessage(String message) {
+        return originalMessage.equals(message);
     }
 
     @Override

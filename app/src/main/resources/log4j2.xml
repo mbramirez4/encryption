@@ -12,6 +12,7 @@
             <PatternLayout pattern="${log_pattern}"/>
         </Console>
         <RollingFile    name="FileLogger"
+                        fileName="${app_log_root}/${base_name}.log"
                         filePattern="${app_log_root}/${base_name}_%d{yyyy-MM-dd}_%03i.log"
                         append="true">
             <PatternLayout pattern="${log_pattern}"/>
@@ -20,6 +21,7 @@
                 <TimeBasedTriggeringPolicy interval="1" modulate="true"/>
                 <SizeBasedTriggeringPolicy size="100MB"/>
             </Policies>
+            <DefaultRolloverStrategy max="4"/>
         </RollingFile>
 
         <RollingFile    name="FileLoggerTime"
