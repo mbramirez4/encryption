@@ -27,6 +27,9 @@ dependencies {
     // https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-core
     implementation("org.apache.logging.log4j:log4j-core:2.25.1")
 
+    implementation("com.github.oshi:oshi-core:6.8.3")
+    implementation("org.openjdk.jol:jol-core:0.17")
+
     // This dependency is used by the application.
     implementation libs.guava
 }
