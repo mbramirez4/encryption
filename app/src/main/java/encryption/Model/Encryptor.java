@@ -30,14 +30,20 @@ public final class Encryptor {
 
         long finalTime = System.nanoTime();
         logger.debug("Chars encryption finished: \n" + encryptedWord);
-        timesLogger.info("Encryption of characters in a word with " + chars.length + " letters took " + (finalTime - initialTime) + " ns");        
+        timesLogger.info(
+            "Encryption of characters in a word with " + chars.length
+            + " letters took " + (finalTime - initialTime) + " ns"
+        );        
         
         initialTime = System.nanoTime();
         encryptedWord.swapAdjacentData();
         finalTime = System.nanoTime();
         
         logger.debug("Adjacent data swapped: \n" + encryptedWord);
-        timesLogger.info("Swapping adjacent data in a structure with " + chars.length + " letters took " + (finalTime - initialTime) + " ns");
+        timesLogger.info(
+            "Swapping adjacent data in a structure with " + chars.length
+            + " letters took " + (finalTime - initialTime) + " ns"
+        );
 
         logger.info("Word encryption finished: \n" + encryptedWord);
 
@@ -53,7 +59,11 @@ public final class Encryptor {
         long finalTime = System.nanoTime();
 
         logger.debug("Adjacent data swapped: \n" + encryptedWord);
-        timesLogger.info("Swapping adjacent data in a structure with " + encryptedWord.size() + " letters took " + (finalTime - initialTime) + " ns");
+        timesLogger.info(
+            "Swapping adjacent data in a structure with "
+            + encryptedWord.size() + " letters took "
+            + (finalTime - initialTime) + " ns"
+        );
 
         initialTime = System.nanoTime();
 

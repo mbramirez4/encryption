@@ -22,9 +22,12 @@ public final class Message {
     }
 
     public Message(String message) {
-        this.originalMessage = message.trim();
-
+        setMessage(message);
         encryptedWords = new ArrayDeque<>();
+    }
+
+    public void setMessage(String message){
+        originalMessage = message.trim();
     }
 
     public String getEncryptedMessage() {
@@ -35,7 +38,9 @@ public final class Message {
         // The original message is passed as the description for the
         // process in order to identify if certain messages are more
         // resource intensive than others.
-        PerformanceMonitor monitor = new PerformanceMonitor("Message encryption", originalMessage);
+        PerformanceMonitor monitor = new PerformanceMonitor(
+            "Message encryption", originalMessage
+        );
         monitor.init();
 
         long initialTime = System.currentTimeMillis();
@@ -54,13 +59,18 @@ public final class Message {
         encryptedMessage = encryptedMessage.trim();
 
         long finalTime = System.currentTimeMillis();
-        timesLogger.info("Encryption of a message with " + words.length + " words took " + (finalTime - initialTime) + " ms");
+        timesLogger.info(
+            "Encryption of a message with " + words.length + " words took "
+            + (finalTime - initialTime) + " ms"
+        );
 
         monitor.end();
     }
 
     public String decryptMessage() {
-        PerformanceMonitor monitor = new PerformanceMonitor("Message decryption", encryptedMessage);
+        PerformanceMonitor monitor = new PerformanceMonitor(
+            "Message decryption", encryptedMessage
+        );
         monitor.init();
         
         long initialTime = System.currentTimeMillis();
@@ -77,7 +87,10 @@ public final class Message {
         decryptedMessage = decryptedMessage.trim();
 
         long finalTime = System.currentTimeMillis();
-        timesLogger.info("Decryption of a message with " + numberWords + " words took " + (finalTime - initialTime) + " ms");
+        timesLogger.info(
+            "Decryption of a message with " + numberWords
+            + " words took " + (finalTime - initialTime) + " ms"
+        );
 
         monitor.end();
 
